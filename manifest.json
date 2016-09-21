@@ -21,7 +21,8 @@
         "http://live.nicovideo.jp/",
         "http://api.ce.nicovideo.jp/",
         "http://icon.nimg.jp/community/",
-        "http://flapi.nicovideo.jp/api/"
+        "http://flapi.nicovideo.jp/api/",
+        "https://apis.google.com/"
     ],
     "background": {
 	    "scripts": ["js/jquery-2.1.4.min.js", "js/newArrival.js", "js/comuHolder.js", "js/nicovideo.js", "js/background.js"]

@@ -1,43 +1,12 @@
 const bg = chrome.extension.getBackgroundPage();
-const APIKEYFILE = "../apikey.json";
-
-var nextPageToken = '';   //次のページをリクエストする時に渡すパラメータ
-var totalResults = 0;   //再生リスト内の動画件数
-var totalPage = 1;  //最大ページ
-var currentPage = 0;  //現在のページ
-
-var scrollHeight;
-var scrollPosition;
-var loadingFlg = false;
-
 $(function()
 {
+
 	// var reader = new FileReader();
 	// reader.readAsDataURL(APIKEYFILE);
 	// reader.onload = function(ev) {
 	// 	alert(reader.result);
 	// };
-
-
-   	getJsonData(APIKEYFILE)
-		.then(function(_jsonData){
-			ytApiKey = _jsonData.apiKey;
-			ytApiUrl = _jsonData.reqUrl;
-			ytPlaylistId = _jsonData.listId;
-			console.log(ytApiKey);
-			console.log(ytApiUrl);
-			console.log(ytPlaylistId);
-			YouTube.getPlayList(ytPlaylistId, 3, '')
-				.then(function(_resData) {
-					console.info(_resData);
-				      nextPageToken = _resData.nextPageToken != undefined ? _resData.nextPageToken : '';
-				      totalResults = _resData.pageInfo.totalResults;
-				      totalPage = Math.ceil(totalResults / 3);
-
-				      // insertVideo(_resData);
-				      // loadingFlg = false;
-				});
-  	});
 
 	// Promise.resolve()
 	// 	.then(Loading.start)
@@ -61,29 +30,6 @@ $(function()
 	// 	.then(show)
 	// 	.then(Loading.done);
 });
-
-function getJsonData(_url){
-	console.log('getJsonData()開始：'+_url);
-	var $dfd = $.Deferred();
-	$.ajax({
-	  url:_url,
-	  dataType:'json',
-	  cache:false,
-	  timeout:15000
-	})
-	  .done(function(_data){
-	  //console.log('json取得成功：'+_url);
-	  $dfd.resolve(_data);
-	})
-	  .fail(function(_data){
-	  console.log('json取得error：'+_url);
-	  $dfd.reject(_data);
-	})
-	  .always(function(_data){
-	  //console.log('getJsonData()終了：'+_url);
-	});
-	return $dfd.promise();
-}
 
 function show($doms)
 {
