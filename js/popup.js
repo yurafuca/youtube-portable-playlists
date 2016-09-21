@@ -1,7 +1,14 @@
 const bg = chrome.extension.getBackgroundPage();
 $(function()
 {
-
+	// Loading Google API JavaScript Client Library
+	// Note: This solution is kind of hacky...
+	 var head = document.getElementsByTagName('head')[0];
+	 var script = document.createElement('script');
+	 script.type = 'text/javascript';
+	 script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady&output=embed";
+	 head.appendChild(script);
+ 
 	// var reader = new FileReader();
 	// reader.readAsDataURL(APIKEYFILE);
 	// reader.onload = function(ev) {
