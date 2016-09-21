@@ -1,10 +1,12 @@
-class YouTube
-{
-    constructor(initial = null) {
-        this.source = initial;
-    }
+// Define some variables used to remember state.
+var playlistId, nextPageToken, prevPageToken;
 
-    static requestUserUploadsPlaylistId() {
+// After the API loads, call a function to get the uploads playlist ID.
+function handleAPILoaded() {
+  requestUserUploadsPlaylistId();
+}
+
+function requestUserUploadsPlaylistId() {
       // See https://developers.google.com/youtube/v3/docs/channels/list
       var request = gapi.client.youtube.channels.list({
         mine: true,
@@ -12,12 +14,12 @@ class YouTube
       });
       request.execute(function(response) {
         playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
-        this.requestVideoPlaylist(playlistId);
+        requestVideoPlaylist(playlistId);
       });
     }
 
     // Retrieve the list of videos in the specified playlist.
-  static requestVideoPlaylist(playlistId, pageToken) {
+  function requestVideoPlaylist(playlistId, pageToken) {
   $('#video-container').html('');
   var requestOptions = {
     playlistId: playlistId,
@@ -28,6 +30,7 @@ class YouTube
     requestOptions.pageToken = pageToken;
   }
   var request = gapi.client.youtube.playlistItems.list(requestOptions);
+  console.log('Execute');
   request.execute(function(response) {
     // Only show pagination buttons if there is a pagination token for the
     // next or previous page of results.
@@ -50,7 +53,7 @@ class YouTube
 }
 
 // Create a listing for a video.
-static displayResult(videoSnippet) {
+function displayResult(videoSnippet) {
   var title = videoSnippet.title;
   var videoId = videoSnippet.resourceId.videoId;
   $('#video-container').append('<p>' + title + ' - ' + videoId + '</p>');
@@ -58,7 +61,7 @@ static displayResult(videoSnippet) {
 }
 
 
-    static getPlayList(ytplaylistId, REQ_QTY, nextPageToken) {
+    function getPlayList(ytplaylistId, REQ_QTY, nextPageToken) {
         //console.log('getPlayList()開始：'+ytApiUrl);
         var $dfd = $.Deferred();
 
@@ -91,6 +94,37 @@ static displayResult(videoSnippet) {
 
         return $dfd.promise();
     }
+
+
+// Retrieve the next page of videos in the playlist.
+function nextPage() {
+  requestVideoPlaylist(playlistId, nextPageToken);
+}
+
+// Retrieve the previous page of videos in the playlist.
+function previousPage() {
+  requestVideoPlaylist(playlistId, prevPageToken);
+}
+
+
+$(function()
+{
+  $(document).on('click','#prev-button',function() {
+    previousPage();
+  });
+    $(document).on('click','#next-button',function() {
+    nextPage();
+  });
+});
+
+
+
+class YouTube
+{
+    constructor(initial = null) {
+        this.source = initial;
+    }
+
 
     // TODO: validation.
     setSource(idList) {
