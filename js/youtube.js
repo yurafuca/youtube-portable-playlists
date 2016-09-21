@@ -1,36 +1,54 @@
 // Define some variables used to remember state.
-var playlistId, nextPageToken, prevPageToken;
+var channelId, playlistId, nextPageToken, prevPageToken;
 
 // After the API loads, call a function to get the uploads playlist ID.
 function handleAPILoaded() {
   requestUserUploadsPlaylistId();
 }
 
+// Call the Data API to retrieve the playlist ID that uniquely identifies the
+// list of videos uploaded to the currently authenticated user's channel.
 function requestUserUploadsPlaylistId() {
-      // See https://developers.google.com/youtube/v3/docs/channels/list
-      var request = gapi.client.youtube.channels.list({
-        mine: true,
-        part: 'contentDetails'
-      });
-      request.execute(function(response) {
-        playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
-        requestVideoPlaylist(playlistId);
-      });
-    }
+  // See https://developers.google.com/youtube/v3/docs/channels/list
+  var request = gapi.client.youtube.channels.list({
+    mine: true,
+    part: 'contentDetails'
+  });
+  request.execute(function(response) {
+    console.info(response);
+    console.log('channelId: ' + response.result.items[0].id);
+    channelId = response.result.items[0].id;
+    playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
+    requestUserPlayLists();
+    requestVideoPlaylist(playlistId);
+  });
+}
 
-    // Retrieve the list of videos in the specified playlist.
-  function requestVideoPlaylist(playlistId, pageToken) {
+function requestUserPlayLists() {
+  var request = gapi.client.youtube.playlists.list({
+    part: 'snippet',
+    channelId: channelId
+  });
+  request.execute(function(response) {
+    console.info(response);
+    $.each(response.result.items, function(index, item) {
+        displayPlaylist(item);
+    });
+  });
+}
+
+// Retrieve the list of videos in the specified playlist.
+function requestVideoPlaylist(playlistId, pageToken) {
   $('#video-container').html('');
   var requestOptions = {
     playlistId: playlistId,
     part: 'snippet',
-    maxResults: 10
+    maxResults: 50
   };
   if (pageToken) {
     requestOptions.pageToken = pageToken;
   }
   var request = gapi.client.youtube.playlistItems.list(requestOptions);
-  console.log('Execute');
   request.execute(function(response) {
     // Only show pagination buttons if there is a pagination token for the
     // next or previous page of results.
@@ -54,47 +72,42 @@ function requestUserUploadsPlaylistId() {
 
 // Create a listing for a video.
 function displayResult(videoSnippet) {
-  var title = videoSnippet.title;
-  var videoId = videoSnippet.resourceId.videoId;
-  $('#video-container').append('<p>' + title + ' - ' + videoId + '</p>');
-  console.info($('#video-container'));
+  makeVideoToDom(videoSnippet)
+    .then(function(dom) {
+      $('#video-container').append(dom);
+    });
+  console.info(videoSnippet);
+  // var title = videoSnippet.title;
+  // var videoId = videoSnippet.resourceId.videoId;
+  // $('#video-container').append('<p>' + title + ' - ' + videoId + '</p>');
 }
 
+function displayPlaylist(playListItem) {
+  let dom = $('<div class ="mylist"><span class="name"></span><span class="id"></span></div>');
+  dom.find('.name').text(playListItem.snippet.title);
+  dom.find('.id').text(playListItem.id);
+  $('#mylistgroup').append(dom);
+  // makeVideoToDom(videoSnippet)
+  //   .then(function(dom) {
+  //     $('#video-container').append(dom);
+  //   });
+  // console.info(videoSnippet);
+  // var title = videoSnippet.title;
+  // var videoId = videoSnippet.resourceId.videoId;
+  // $('#video-container').append('<p>' + title + ' - ' + videoId + '</p>');
+}
 
-    function getPlayList(ytplaylistId, REQ_QTY, nextPageToken) {
-        //console.log('getPlayList()開始：'+ytApiUrl);
-        var $dfd = $.Deferred();
-
-        $.ajax({
-          type: 'get',
-          url: ytApiUrl,
-          dataType:'json',
-          data: {
-            part: 'snippet',
-            playlistId : ytPlaylistId,  //再生リストのID
-            maxResults : REQ_QTY,   //取得件数
-            pageToken : nextPageToken,  //総件数が取得件数以上の時に続きのデータを取得するためのパラメータ
-            key: ytApiKey       //APIキー
-          },
-          dataType: 'json',
-          cache: false,
-          timeout: 15000
-        })
-          .done(function(_data) {
-          //console.log('再生リスト取得成功：' + ytApiUrl);
-          $dfd.resolve(_data);
-        })
-          .fail(function(_data) {
-          console.log('再生リスト取得error：' + ytApiUrl);
-          $dfd.reject(_data);
-        })
-          .always(function(_data) {
-          //console.log('getPlayList()終了：' + ytApiUrl);
-        });
-
-        return $dfd.promise();
-    }
-
+function makeVideoToDom(videoSnippet) {
+  return new Promise(function(resolve, reject) {
+      let dom = $('<div class ="video"/>');
+      dom.load(chrome.extension.getURL("/html/video.html"), function() {
+        dom.find('.title .playurl').text(videoSnippet.title);
+        dom.find('.playurl').attr('href', "https://www.youtube.com/watch?v=" + videoSnippet.resourceId.videoId);
+        dom.find('.thumbnail').css('background-image', `url(" ${videoSnippet.thumbnails.high.url} ")`);
+        resolve(dom);
+      });
+  });
+}
 
 // Retrieve the next page of videos in the playlist.
 function nextPage() {
@@ -106,7 +119,6 @@ function previousPage() {
   requestVideoPlaylist(playlistId, prevPageToken);
 }
 
-
 $(function()
 {
   $(document).on('click','#prev-button',function() {
@@ -116,36 +128,3 @@ $(function()
     nextPage();
   });
 });
-
-
-
-class YouTube
-{
-    constructor(initial = null) {
-        this.source = initial;
-    }
-
-
-    // TODO: validation.
-    setSource(idList) {
-        this.source = idList;
-    }
-
-    isNew(community) {
-        if (this.source == null) {
-            // dont show notification.
-            return false;
-        }
-        // alert("hoge");
-        let id = $(community).find('id').text();
-        let inarray = $.inArray(parseInt(id), this.source);
-        // console.log(this.toBool(1));
-        // console.log(this.toBool(inarray));
-        return !this.toBool(inarray);
-    }
-
-    toBool(value) {
-        if (value == -1) return false;
-        return true;
-    }
-}
