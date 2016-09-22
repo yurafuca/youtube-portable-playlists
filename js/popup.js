@@ -8,6 +8,13 @@ $(function()
 	 script.type = 'text/javascript';
 	 script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady";
 	 head.appendChild(script);
+
+	let watchHistory = {name: 'History', id:'__HISTORY__'};
+    $('#mylistgroup2').append(toDom(watchHistory).addClass('special history'));
+
+    let savedPlaylists = {name: 'Watch Later', id:'__LATER__'};
+    $('#mylistgroup2').append(toDom(savedPlaylists).addClass('special later'));
+
  
 	// var reader = new FileReader();
 	// reader.readAsDataURL(APIKEYFILE);
@@ -42,7 +49,18 @@ $(function()
 {
 	$(document).on('click','.mylist',function() {
 		removeBackground();
-		requestVideoPlaylist($(this).find('.id').text());
+
+		switch($(this).find('.id').text()) {
+			case '__HISTORY__' :
+				chrome.tabs.create({'url': 'https://www.youtube.com/feed/history'});
+				break;
+			case '__LATER__' :
+				chrome.tabs.create({'url': 'https://www.youtube.com/playlist?list=WL'});
+				break;
+			default :
+				requestVideoPlaylist($(this).find('.id').text());
+				break;
+		}
 		
 		// const dom 	  = new MyListView($(this));
 		// const loading = new Loading($('#mylistitem'));
@@ -65,6 +83,14 @@ $(function()
     	$('#mylisttitle').text($(this).find('.name').text());
 	});
 });
+
+function toDom(mylist) {
+        let dom = $('<div class ="mylist"><span class="name"></span><span class="id"></span></div>');
+        dom.find('.name').text(mylist.name);
+        dom.find('.id').text(mylist.id);
+
+        return dom;
+    }
 
 function removeBackground() {
 	$('#mylistitem').removeClass('logoback');

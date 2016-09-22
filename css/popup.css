@@ -38,18 +38,22 @@ body {
 .header {
 	background-color: white;
 	/*background: linear-gradient( to bottom, #444, #444 50%, #2D2D2D 50%, #2D2D2D );*/
-	background: linear-gradient(#444, #2D2D2D);
+	/*background: linear-gradient(#3D3D3D, #2D2D2D);*/
+	background-color: #222;
 	color: white;
-    line-height: 37px;
-    height: 37px;
+    line-height: 39px;
+    height: 39px;
     /*font-weight: bold;*/
     
     padding-left: 10px;
-	border-top: solid 1px #222;
-	border-bottom: solid 1px #222;
+	border-bottom: solid 1px #000;
 	font-weight: 500;
 	font-size: 14px;
 	 
+}
+#savedlist-header {
+	border-top: solid 1px #000;
+	/*margin-top: 10px;*/
 }
 .header:before {
 	content: "";
@@ -66,7 +70,7 @@ body {
 	margin-right: 7px;
 }
 #savedlist-header:before {
-	background-image: url('../image/ic_stars_white_48dp_2x.png');
+	background-image: url('../image/ic_video_library_white_48dp_2x.png');
 }
 #history-header:before {
 	background-image: url('../image/ic_history_white_48dp_2x.png');
@@ -74,6 +78,12 @@ body {
 #mylistgroup {
 	overflow: auto;
 	background-color: #2D2D2D;
+	padding-bottom: 10px;
+	border-bottom: solid 1px #3F3F3F;
+	border-top: solid 1px #444;
+}
+#mylistgroup2 {
+	border-top: solid 1px #444;
 }
 .mylist {
 	/*background-color: white;*/
@@ -101,6 +111,32 @@ body {
 	position: relative;
 	background-repeat: no-repeat;
 }
+.special:after {
+	font-family: 'Material Icons';
+	content: "";
+	background-image: url('../image/ic_open_in_new_white_24dp_1x.png');
+	/*-webkit-filter: invert(90%);*/
+	background-size: 20px;
+	font-size: 20px;
+	float:right;
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: -3px;
+	right: 7px;
+	background-repeat: no-repeat;
+}
+.history:before {
+	background-size: 20px;
+	width: 20px;
+	height: 20px;
+	left: -2px;
+	top: -1px;
+	background-image: url('../image/ic_hourglass_empty_white_20dp_1x.png');
+}
+.later:before {
+	background-image: url('../image/ic_watch_later_white_48dp_2x.png');
+}
 .mylist:hover {
 	/*background-color: #F7F7F7;*/
 	background-color: #575757;
@@ -116,7 +152,7 @@ body {
 #mylistitem {
 	overflow-x: auto;
 	overflow-y: scroll; 
-	height: 433px !important;
+	height: 419px !important;
 	background-color: #F7F7F7;
 	box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
     text-shadow: 0 1px 0 #fff;
@@ -125,8 +161,8 @@ body {
 	padding-left: 5px;
 }
 .logoback {
-	background-image: url('../image/ff.png');
-	background-size: 100px;
+	background-image: url('../image/5.gif');
+	background-size: 48px;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -255,7 +291,7 @@ body {
 	font-weight: bold;
 	margin: 5px;
 	margin-top: 5px;
-	height: 36px;
+	height: 31px;
 	overflow : hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
@@ -269,7 +305,7 @@ body {
 }
 .title .playurl:hover {
 	color: #167ac6;
-	/*text-decoration: underline;*/
+	text-decoration: underline;
 }
 .count {
 	padding: 5px;
