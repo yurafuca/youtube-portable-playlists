@@ -6,7 +6,7 @@ $(function()
 	 var head = document.getElementsByTagName('head')[0];
 	 var script = document.createElement('script');
 	 script.type = 'text/javascript';
-	 script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady&output=embed";
+	 script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady";
 	 head.appendChild(script);
  
 	// var reader = new FileReader();

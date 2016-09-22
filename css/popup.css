@@ -3,12 +3,15 @@ html {
 }
 body {
 	margin: 0;
-	font: 13px / 1.4 Helvetica, Meiryo, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	/*font: 13px / 1.4 Helvetica, Meiryo, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+	font-family: Roboto,arial,sans-serif;
+	font-size: 13px;
+	
 	overflow: hidden !important;
 	color: #222;
 	border: solid 1px #ddd;
 }
-@font-face {
+/*@font-face {
 	font-family: 'Material Icons';
 	font-style: normal;
 	font-weight: 400;
@@ -18,7 +21,7 @@ body {
 	url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
 	url(../fonts/MaterialIcons-Regular.woff) format('woff'),
 	url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
-}
+}*/
 .octicon {
 	width: 16px;
 	text-align: center;
@@ -29,41 +32,47 @@ body {
 	height: 100%;
 	overflow: hidden;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    background-color: #2D2D2D;
     
 }
-#header {
+.header {
 	background-color: white;
-	background: linear-gradient( to bottom, #4f4f4f, #4f4f4f 50%, #444 50%, #444 );
+	/*background: linear-gradient( to bottom, #444, #444 50%, #2D2D2D 50%, #2D2D2D );*/
+	background: linear-gradient(#444, #2D2D2D);
 	color: white;
-    line-height: 43px;
-    height: 42px;
-    font-weight: bold;
+    line-height: 37px;
+    height: 37px;
+    /*font-weight: bold;*/
     
     padding-left: 10px;
-	border-bottom: 1px solid #eee;
-	display: none;
-	font-weight: bold;
-	font-size: 15px;
-	padding-left: 13px;
+	border-top: solid 1px #222;
+	border-bottom: solid 1px #222;
+	font-weight: 500;
+	font-size: 14px;
 	 
 }
-#header:before {
+.header:before {
 	content: "";
-	background-image: url('../image/16.png');
-	background-size: 19px;
-	font-size: 19px;
+	background-image: url('../image/ic_account_circle_white_48dp_2x.png');
+	background-size: 20px;
+	font-size: 20px;
 	float:left;
-	width: 19px;
-	height: 19px;
+	width: 20px;
+	height: 20px;
 	background-repeat: no-repeat;
 	position: relative;
-	top: 11px;
-	left: -1px;
-	margin-right: 5px;
+	top: 8px;
+	left: 2px;
+	margin-right: 7px;
+}
+#savedlist-header:before {
+	background-image: url('../image/ic_stars_white_48dp_2x.png');
+}
+#history-header:before {
+	background-image: url('../image/ic_history_white_48dp_2x.png');
 }
 #mylistgroup {
 	overflow: auto;
-	height: 100%;
 	background-color: #2D2D2D;
 }
 .mylist {

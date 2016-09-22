@@ -12,7 +12,8 @@ function requestUserUploadsPlaylistId() {
   // See https://developers.google.com/youtube/v3/docs/channels/list
   var request = gapi.client.youtube.channels.list({
     mine: true,
-    part: 'contentDetails'
+    part: 'contentDetails',
+    maxResults: 10
   });
   request.execute(function(response) {
     console.info(response);
@@ -27,7 +28,8 @@ function requestUserUploadsPlaylistId() {
 function requestUserPlayLists() {
   var request = gapi.client.youtube.playlists.list({
     part: 'snippet',
-    channelId: channelId
+    channelId: channelId,
+    // id: 'RDg2WpG1e2V9s'
   });
   request.execute(function(response) {
     console.info(response);
@@ -40,6 +42,12 @@ function requestUserPlayLists() {
 // Retrieve the list of videos in the specified playlist.
 function requestVideoPlaylist(playlistId, pageToken) {
   $('#video-container').html('');
+  // watchHistory.length == 0 になる．
+  // developers.google.com の embedded-explorer でも watchHistory.length == 0．
+  // relatedPlaylists.watchHistory == 'HL'になっている．
+  // YouTube API が明らかに未実装な箇所を抱えたまま放置されている．
+  // watchLater も同様．
+  // YouTube API はクソだ．
   var requestOptions = {
     playlistId: playlistId,
     part: 'snippet',
@@ -49,9 +57,11 @@ function requestVideoPlaylist(playlistId, pageToken) {
     requestOptions.pageToken = pageToken;
   }
   var request = gapi.client.youtube.playlistItems.list(requestOptions);
+  console.info(requestOptions);
   request.execute(function(response) {
     // Only show pagination buttons if there is a pagination token for the
     // next or previous page of results.
+    console.info(response);
     nextPageToken = response.result.nextPageToken;
     var nextVis = nextPageToken ? 'visible' : 'hidden';
     $('#next-button').css('visibility', nextVis);
