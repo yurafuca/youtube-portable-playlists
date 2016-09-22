@@ -86,6 +86,7 @@ function displayPlaylist(playListItem) {
   let dom = $('<div class ="mylist"><span class="name"></span><span class="id"></span></div>');
   dom.find('.name').text(playListItem.snippet.title);
   dom.find('.id').text(playListItem.id);
+  let hoge;
   $('#mylistgroup').append(dom);
   // makeVideoToDom(videoSnippet)
   //   .then(function(dom) {

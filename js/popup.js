@@ -38,6 +38,39 @@ $(function()
 	// 	.then(Loading.done);
 });
 
+$(function()
+{
+	$(document).on('click','.mylist',function() {
+		removeBackground();
+		requestVideoPlaylist($(this).find('.id').text());
+		
+		// const dom 	  = new MyListView($(this));
+		// const loading = new Loading($('#mylistitem'));
+		// const id 	  = $(this).find('.id').text();
+		// let getapi  = null;
+		// if (id === 'deflist') {
+		// 	getapi = Nicoapi.getDeflistItem;
+		// } else {
+		// 	getapi = Nicoapi.getMylistItem;
+		// }
+		// getapi(id).then(function(videos) {
+		// 	MyListItemView.clear();
+		// 	if (videos.length === 0) {
+		// 		MyListItemView.message('NO_ITEM');
+		// 	}
+		// 	dom.select();
+		// 	MyListItemView.show(videos);
+		// });
+
+    	$('#mylisttitle').text($(this).find('.name').text());
+	});
+});
+
+function removeBackground() {
+	$('#mylistitem').removeClass('logoback');
+}
+
+
 function show($doms)
 {
 	return new Promise(function(resolve, reject) {
