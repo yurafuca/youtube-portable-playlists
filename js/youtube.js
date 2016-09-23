@@ -17,8 +17,6 @@ function requestUserUploadsPlaylistId() {
     maxResults: 10
   });
   request.execute(function(response) {
-    console.info(response);
-    console.log('channelId: ' + response.result.items[0].id);
     channelId = response.result.items[0].id;
     playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
     requestUserPlayLists();
@@ -29,11 +27,9 @@ function requestUserUploadsPlaylistId() {
 function requestUserPlayLists() {
   var request = gapi.client.youtube.playlists.list({
     part: 'snippet',
-    channelId: channelId,
-    // id: 'RDg2WpG1e2V9s'
+    channelId: channelId
   });
   request.execute(function(response) {
-    console.info(response);
     $.each(response.result.items, function(index, item) {
         displayPlaylist(item);
     });
@@ -101,23 +97,53 @@ function requestVideo(videoId, videoDom, pageToken) {
     videoDom.find('.video_length').text(parseDuration(response.result.items[0].contentDetails.duration));
     videoDom.find('.viewcount').text(Number(response.result.items[0].statistics.viewCount).toLocaleString());
 
-    // too terible.
+    // Ugly.
     Loading.done();
+  });
+}
 
-    // var playlistItems = response.result.items;
-    // if (playlistItems) {
-    //   $.each(playlistItems, function(index, item) {
-    //     displayResult(item.snippet);
-    //   });
-    // } else {
-    //   $('#video-container').html('Sorry you have no uploaded videos');
-    // }
+function requestVideoSearch() {
+  $('#video-container').html('');
+
+  var q = $('#query').val();
+  console.log('query:' + q);
+  // APIs Explorer と gapi で異なる結果を返される．
+  // var request = gapi.client.youtube.search.list({
+  //   part: 'id, snippet',
+  //   q: q,
+  //   type: 'video'
+  // });
+  var endpoint = 'https://www.googleapis.com/youtube/v3/search';
+
+  var params = '?part=' + 'id,snippet'
+             + '&q=' + q
+             + '&type=' + 'video'
+             + '&maxResults=' + 18;
+
+  var request = gapi.client.request(endpoint + params, 'GET');
+    // .then(function(response) {
+    //   console.info(response);
+    // });
+
+  request.execute(function(response) {
+    console.log(response);
+    var playlistItems = response.items;
+    if (playlistItems) {
+      $.each(playlistItems, function(index, item) {
+        // item.resourceId.videoId = item.id.id;
+        displayResult(item.snippet, item.id.videoId);
+      });
+    } else {
+      $('#video-container').html('Not found.');
+    }
+    // var str = JSON.stringify(response.result);
+    // $('#search-container').html('<pre>' + str + '</pre>');
   });
 }
 
 // Create a listing for a video.
-function displayResult(videoSnippet) {
-  makeVideoToDom(videoSnippet)
+function displayResult(videoSnippet, videoId) {
+  makeVideoToDom(videoSnippet, videoId)
     .then(function(dom) {
       // console.log("Resolved dom");
       // console.info(dom);
@@ -137,14 +163,30 @@ function displayPlaylist(playListItem) {
   $('#mylistgroup').append(dom);
 }
 
-function makeVideoToDom(videoSnippet) {
+function makeVideoToDom(videoSnippet, videoId) {
   return new Promise(function(resolve, reject) {
       let dom = $('<div class ="video"/>');
       dom.load(chrome.extension.getURL("/html/video.html"), function() {
-        dom.find('.title .playurl').text(videoSnippet.title);
-        dom.find('.playurl').attr('href', "https://www.youtube.com/watch?v=" + videoSnippet.resourceId.videoId);
-        dom.find('.thumbnail').css('background-image', `url(" ${videoSnippet.thumbnails.high.url} ")`);
-        requestVideo(videoSnippet.resourceId.videoId, dom);
+        // if (videoSnippet)
+        var title, id, thumbnail;
+        // if (videoSnippet.snippet) {
+        //   id = videoSnippet.id.videoId;
+        //   title = videoSnippet.snippet.title;
+        //   thumbnail = videoSnippet.snippet.thumbnails.high.url;
+        // } else {
+          title = videoSnippet.title;
+          thumbnail = videoSnippet.thumbnails.high.url;
+          if (videoId) {
+            id = videoId;
+          } else {
+            id = id = videoSnippet.resourceId.videoId;
+          }
+        // }
+        dom.find('.playurl').attr('href', "https://www.youtube.com/watch?v=" + id);
+        dom.find('.title .playurl').text(title);
+        
+        dom.find('.thumbnail').css('background-image', `url(" ${thumbnail} ")`);
+        requestVideo(id, dom);
         resolve(dom);
       });
   });

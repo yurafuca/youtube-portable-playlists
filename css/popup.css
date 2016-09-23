@@ -82,10 +82,10 @@ a {
 #savedlist-header:before {
 	background-image: url('../image/ic_video_library_white_48dp_2x.png');
 }
-#history-header:before {
-	background-image: url('../image/ic_history_white_48dp_2x.png');
+#search-header:before {
+	background-image: url('../image/ic_search_white_48dp_1x.png');
 }
-#mylistgroup {
+#mylistgroup, #mylistgroup2 {
 	overflow: auto;
 	background-color: #2D2D2D;
 	padding-bottom: 10px;
@@ -219,6 +219,85 @@ a {
 	top: 12px;
 	left: 10px;
 	margin-right: 5px;
+}
+#search-container {
+	border-top: solid 1px #444;
+	    /*position: relative;*/
+	    padding: 10px;
+	    /*float: right;*/
+}
+#query {
+    background-color: #fdfdfd;
+    /*background-color: #e62117;*/
+    font-size: 11px;
+    height: 24px;
+    line-height: 24px;
+    /*margin: 0 0 2px;*/
+    overflow: hidden;
+    position: relative;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-transition: border-color .2s ease;
+    -webkit-transition: border-color .2s ease;
+    transition: border-color .1s ease;
+
+        border: 1px solid #ccc;
+    box-shadow: inset 0 1px 2px #eee;
+
+        transition: background .1s,flex .1s;
+
+        border-radius: 10px 0 0 10px;
+
+        width: 130px;
+        padding-left: 7px;
+}
+#query:hover {
+	background-color: #eee;
+	/*-webkit-filter: brightness(0.95);*/
+
+}
+#search-button {
+    display: inline-block;
+    height: 24px;
+    border: solid 1px transparent;
+    padding: 0 10px;
+    outline: 0;
+    font-weight: 500;
+    font-size: 11px;
+    text-decoration: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    line-height: normal;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+        border-color: #d3d3d3;
+        border-left: 0;
+    /*background: #f8f8f8;*/
+    background: #eee;
+
+    color: #333;
+    position: relative;
+    /*top: -1px;*/
+    left: -5px;
+
+    	background-image: url('../image/ic_search_white_48dp_2.png');
+	/*-webkit-filter: invert(90%);*/
+	width: 30px;
+	background-position: center;
+	background-size: 20px;
+	float:right;
+	position: relative;
+	background-repeat: no-repeat;
+
+}
+#search-button:hover {
+    border-color: #c6c6c6;
+    /*background: #f0f0f0;*/
+	-webkit-filter: brightness(0.95);
+
+    box-shadow: 0 1px 0 rgba(0,0,0,0.10);
 }
 #play {
 	display: inline;

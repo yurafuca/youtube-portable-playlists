@@ -1,10 +1,10 @@
 {
-    "name": "YouTubePortablePlaylists",
+    "name": "YouTube PortablePlay lists",
 	"manifest_version": 2,
     "version": "0.0.3",
      "browser_action": {
 	      "default_icon": "image/icon.png",
-	      "default_title": "放送中の番組を確認する",
+	      "default_title": "YouTube PortablePlay lists",
           "default_popup": "html/popup.html"
 	 },
     "description": "参加中のコミュニティ/チャンネルの放送番組を一覧表示します．", 
@@ -17,12 +17,6 @@
         "alarms",
         "notifications",
         "identity",
-        "http://www.nicovideo.jp/",
-        "https://secure.nicovideo.jp/",
-        "http://live.nicovideo.jp/",
-        "http://api.ce.nicovideo.jp/",
-        "http://icon.nimg.jp/community/",
-        "http://flapi.nicovideo.jp/api/",
         "https://apis.google.com/",
         "https://accounts.google.com/*",
         "https://www.googleapis.com/*",

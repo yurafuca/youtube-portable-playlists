@@ -38,6 +38,11 @@ $(function()
 
     	$('#mylisttitle').text($(this).find('.name').text());
 	});
+
+	$(document).on('click','#search-button',function() {
+		removeBackground();
+		requestVideoSearch();
+	});
 });
 
 function toDom(mylist) {
