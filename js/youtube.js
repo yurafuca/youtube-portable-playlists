@@ -3,6 +3,7 @@ var channelId, playlistId, nextPageToken, prevPageToken;
 
 // After the API loads, call a function to get the uploads playlist ID.
 function handleAPILoaded() {
+  Loading.start();
   requestUserUploadsPlaylistId();
 }
 
@@ -99,6 +100,10 @@ function requestVideo(videoId, videoDom, pageToken) {
     // console.log(Date.parse(response.result.items[0].contentDetails.duration).getMinute());
     videoDom.find('.video_length').text(parseDuration(response.result.items[0].contentDetails.duration));
     videoDom.find('.viewcount').text(Number(response.result.items[0].statistics.viewCount).toLocaleString());
+
+    // too terible.
+    Loading.done();
+
     // var playlistItems = response.result.items;
     // if (playlistItems) {
     //   $.each(playlistItems, function(index, item) {

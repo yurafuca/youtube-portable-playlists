@@ -9,6 +9,9 @@ $(function()
 	 script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady";
 	 head.appendChild(script);
 
+	$('.pre-auth').hide();
+    $('.post-auth').hide();
+
 	let watchHistory = {name: 'History', id:'__HISTORY__'};
     $('#mylistgroup2').append(toDom(watchHistory).addClass('special history'));
 
@@ -72,10 +75,10 @@ function wordWrap(text, length)
 class Loading
 {
 	static start() {
-		$('#communities').addClass('nowloading');
+		$('#mylistitem').addClass('nowloading');
 	}
 
 	static done() {
-		$('#communities').removeClass('nowloading');
+		$('#mylistitem').removeClass('nowloading');
 	}
 }

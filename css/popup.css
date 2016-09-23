@@ -4,7 +4,7 @@ html {
 body {
 	margin: 0;
 	/*font: 13px / 1.4 Helvetica, Meiryo, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
-	font-family: Roboto,arial,sans-serif;
+	/*font-family: Roboto,arial,sans-serif;*/
 	font-size: 13px;
 	
 	overflow: hidden !important;
@@ -22,9 +22,19 @@ body {
 	url(../fonts/MaterialIcons-Regular.woff) format('woff'),
 	url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }*/
+a {
+
+}
 .octicon {
 	width: 16px;
 	text-align: center;
+}
+#login-container {
+	font-size: 15px;
+	font-weight: 500;
+	margin: 10px;
+	margin-top: 0;
+
 }
 #menu {
 	float: left;
@@ -65,8 +75,8 @@ body {
 	height: 20px;
 	background-repeat: no-repeat;
 	position: relative;
-	top: 8px;
-	left: 2px;
+	top: 10px;
+	left: 0px;
 	margin-right: 7px;
 }
 #savedlist-header:before {
@@ -155,7 +165,7 @@ body {
 
 	overflow-x: auto;
 	overflow-y: scroll; 
-	height: 419px !important;
+	height: 472px !important;
 	background-color: white;
 	/*box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);*/
 	border-left: solid 1px #ddd;
@@ -187,14 +197,14 @@ body {
 }
 #mylisttitle {
 	display: inline;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	font-size: 15px;
 	margin-left: 13px;
 	color: white;
 	line-height: 41px;
     position: relative;
     
-	 
+	 font-weight: 500;
 }
 #mylisttitle:before {
 	content: "";
@@ -207,7 +217,7 @@ body {
 	background-repeat: no-repeat;
 	position: relative;
 	top: 12px;
-	left: 7px;
+	left: 10px;
 	margin-right: 5px;
 }
 #play {
@@ -289,7 +299,7 @@ body {
 	background-position: center center;
 }
 .thumbnail:hover {
-	-webkit-filter: brightness(0.85);
+	/*-webkit-filter: brightness(0.85);*/
 }
 .info {
 	position: relative;
@@ -307,14 +317,16 @@ body {
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 	/*color: #4078c0;*/
+
+	line-height: 16px;
 }
 .title .playurl {
-	color: #333;
+	color: #3F3F3F;
 	text-decoration: none;
 }
 .title .playurl:hover {
 	color: #167ac6;
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 }
 .count {
 	padding: 0 0 0 5px;
@@ -356,8 +368,8 @@ dd {
 	clear: both;
 }
 .nowloading {
-	background-image: url('/image/loading.gif');
-	background-size: 65px;
+	background-image: url('/image/5.gif');
+	background-size: 40px;
 	background-repeat: no-repeat;
 	background-position: center;
 }
