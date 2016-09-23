@@ -12,37 +12,8 @@ $(function()
 	let watchHistory = {name: 'History', id:'__HISTORY__'};
     $('#mylistgroup2').append(toDom(watchHistory).addClass('special history'));
 
-    let savedPlaylists = {name: 'Watch Later', id:'__LATER__'};
-    $('#mylistgroup2').append(toDom(savedPlaylists).addClass('special later'));
-
- 
-	// var reader = new FileReader();
-	// reader.readAsDataURL(APIKEYFILE);
-	// reader.onload = function(ev) {
-	// 	alert(reader.result);
-	// };
-
-	// Promise.resolve()
-	// 	.then(Loading.start)
-	// 	.then(isLogined)
-	// 		.catch(function(e) {
-	// 			Loading.done();
-	// 			showErrorMessage();
-	// 			reject();
-	// 		})
-	// 	.then(bg.loadLiveStreams)
-	// 	.then(function($videoInfos) {
-	// 		return new Promise(function(resolve, reject) {
-	// 			if ($videoInfos.length === 0) {
-	// 				Loading.done();
-	// 				showZeroMessage();
-	// 				reject();
-	// 			}
-	// 			resolve($videoInfos);
-	// 		});
-	// 	})
-	// 	.then(show)
-	// 	.then(Loading.done);
+    let watchLater = {name: 'Watch Later', id:'__LATER__'};
+    $('#mylistgroup2').append(toDom(watchLater).addClass('special later'));
 });
 
 $(function()
@@ -61,24 +32,6 @@ $(function()
 				requestVideoPlaylist($(this).find('.id').text());
 				break;
 		}
-		
-		// const dom 	  = new MyListView($(this));
-		// const loading = new Loading($('#mylistitem'));
-		// const id 	  = $(this).find('.id').text();
-		// let getapi  = null;
-		// if (id === 'deflist') {
-		// 	getapi = Nicoapi.getDeflistItem;
-		// } else {
-		// 	getapi = Nicoapi.getMylistItem;
-		// }
-		// getapi(id).then(function(videos) {
-		// 	MyListItemView.clear();
-		// 	if (videos.length === 0) {
-		// 		MyListItemView.message('NO_ITEM');
-		// 	}
-		// 	dom.select();
-		// 	MyListItemView.show(videos);
-		// });
 
     	$('#mylisttitle').text($(this).find('.name').text());
 	});

@@ -10,7 +10,7 @@ var OAUTH2_SCOPES = [
 var APIKEYFILE = '../apikey.json';
 
 function getJsonData(_url){
-  console.log('getJsonData()開始：'+_url);
+  // console.log('getJsonData()開始：'+_url);
   var $dfd = $.Deferred();
   $.ajax({
     url:_url,
@@ -23,7 +23,7 @@ function getJsonData(_url){
     $dfd.resolve(_data);
   })
     .fail(function(_data){
-    console.log('json取得error：'+_url);
+    // console.log('json取得error：'+_url);
     $dfd.reject(_data);
   })
     .always(function(_data){

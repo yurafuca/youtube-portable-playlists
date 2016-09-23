@@ -80,6 +80,41 @@ function requestVideoPlaylist(playlistId, pageToken) {
   });
 }
 
+// Retrieve the list of videos in the specified playlist.
+function requestVideo(videoId, pageToken) {
+  $('#video-container').html('');
+  var requestOptions = {
+    id: videoId,
+    part: 'contentDetails, statistics',
+    maxResults: 50
+  };
+  if (pageToken) {
+    requestOptions.pageToken = pageToken;
+  }
+  var request = gapi.client.youtube.playlistItems.list(requestOptions);
+  console.info(requestOptions);
+  request.execute(function(response) {
+    // Only show pagination buttons if there is a pagination token for the
+    // next or previous page of results.
+    console.info(response);
+    nextPageToken = response.result.nextPageToken;
+    var nextVis = nextPageToken ? 'visible' : 'hidden';
+    $('#next-button').css('visibility', nextVis);
+    prevPageToken = response.result.prevPageToken
+    var prevVis = prevPageToken ? 'visible' : 'hidden';
+    $('#prev-button').css('visibility', prevVis);
+
+    var playlistItems = response.result.items;
+    if (playlistItems) {
+      $.each(playlistItems, function(index, item) {
+        displayResult(item.snippet);
+      });
+    } else {
+      $('#video-container').html('Sorry you have no uploaded videos');
+    }
+  });
+}
+
 // Create a listing for a video.
 function displayResult(videoSnippet) {
   makeVideoToDom(videoSnippet)
@@ -98,14 +133,6 @@ function displayPlaylist(playListItem) {
   dom.find('.id').text(playListItem.id);
   let hoge;
   $('#mylistgroup').append(dom);
-  // makeVideoToDom(videoSnippet)
-  //   .then(function(dom) {
-  //     $('#video-container').append(dom);
-  //   });
-  // console.info(videoSnippet);
-  // var title = videoSnippet.title;
-  // var videoId = videoSnippet.resourceId.videoId;
-  // $('#video-container').append('<p>' + title + ' - ' + videoId + '</p>');
 }
 
 function makeVideoToDom(videoSnippet) {
