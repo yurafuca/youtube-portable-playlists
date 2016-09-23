@@ -298,8 +298,9 @@ body {
 .title {
 	font-weight: bold;
 	margin: 5px;
+	margin-bottom: 3px;
 	margin-top: 5px;
-	height: 31px;
+	/*height: 31px;*/
 	overflow : hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
@@ -316,18 +317,15 @@ body {
 	text-decoration: underline;
 }
 .count {
-	padding: 5px;
+	padding: 0 0 0 5px;
 	margin: 0;
-	color: #888;
-	font-size: 12px;
-	border-top: solid 1px #ececec;
-	background-color: #FAFAFA;
-	border-radius: 0 0 3px 3px;
-	overflow: hidden;
-	font-size: 8px;
+	color: #767676;
+	font-size: 11px;
 
-	display: none;
-
+}
+.count .viewcount:after {
+	content: 'views';
+	margin-left: 3px;
 }
 dl {
 	float: left;

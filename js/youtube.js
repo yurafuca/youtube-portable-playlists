@@ -81,8 +81,7 @@ function requestVideoPlaylist(playlistId, pageToken) {
 }
 
 // Retrieve the list of videos in the specified playlist.
-function requestVideo(videoId, pageToken) {
-  $('#video-container').html('');
+function requestVideo(videoId, videoDom, pageToken) {
   var requestOptions = {
     id: videoId,
     part: 'contentDetails, statistics',
@@ -91,27 +90,23 @@ function requestVideo(videoId, pageToken) {
   if (pageToken) {
     requestOptions.pageToken = pageToken;
   }
-  var request = gapi.client.youtube.playlistItems.list(requestOptions);
+  var request = gapi.client.youtube.videos.list(requestOptions);
   console.info(requestOptions);
   request.execute(function(response) {
     // Only show pagination buttons if there is a pagination token for the
     // next or previous page of results.
     console.info(response);
-    nextPageToken = response.result.nextPageToken;
-    var nextVis = nextPageToken ? 'visible' : 'hidden';
-    $('#next-button').css('visibility', nextVis);
-    prevPageToken = response.result.prevPageToken
-    var prevVis = prevPageToken ? 'visible' : 'hidden';
-    $('#prev-button').css('visibility', prevVis);
-
-    var playlistItems = response.result.items;
-    if (playlistItems) {
-      $.each(playlistItems, function(index, item) {
-        displayResult(item.snippet);
-      });
-    } else {
-      $('#video-container').html('Sorry you have no uploaded videos');
-    }
+    // console.log(Date.parse(response.result.items[0].contentDetails.duration).getMinute());
+    videoDom.find('.video_length').text(parseDuration(response.result.items[0].contentDetails.duration));
+    videoDom.find('.viewcount').text(Number(response.result.items[0].statistics.viewCount).toLocaleString());
+    // var playlistItems = response.result.items;
+    // if (playlistItems) {
+    //   $.each(playlistItems, function(index, item) {
+    //     displayResult(item.snippet);
+    //   });
+    // } else {
+    //   $('#video-container').html('Sorry you have no uploaded videos');
+    // }
   });
 }
 
@@ -119,6 +114,8 @@ function requestVideo(videoId, pageToken) {
 function displayResult(videoSnippet) {
   makeVideoToDom(videoSnippet)
     .then(function(dom) {
+      // console.log("Resolved dom");
+      // console.info(dom);
       $('#video-container').append(dom);
     });
   console.info(videoSnippet);
@@ -142,6 +139,7 @@ function makeVideoToDom(videoSnippet) {
         dom.find('.title .playurl').text(videoSnippet.title);
         dom.find('.playurl').attr('href', "https://www.youtube.com/watch?v=" + videoSnippet.resourceId.videoId);
         dom.find('.thumbnail').css('background-image', `url(" ${videoSnippet.thumbnails.high.url} ")`);
+        requestVideo(videoSnippet.resourceId.videoId, dom);
         resolve(dom);
       });
   });
@@ -155,6 +153,25 @@ function nextPage() {
 // Retrieve the previous page of videos in the playlist.
 function previousPage() {
   requestVideoPlaylist(playlistId, prevPageToken);
+}
+
+function parseDuration(input) {
+  var reptms = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/;
+  var hours = 0, minutes = 0, seconds = 0, totalseconds;
+  var durationString = '';
+
+  if (reptms.test(input)) {
+    var matches = reptms.exec(input);
+    if (matches[1]) hours = Number(matches[1]);
+    if (matches[2]) minutes = Number(matches[2]);
+    if (matches[3]) seconds = Number(matches[3]);
+  }
+
+  if (hours != 0) durationString += hours + ':';
+                  durationString += minutes + ':';
+                  durationString += ('0' + seconds).slice(-2);
+
+  return durationString;
 }
 
 $(function()
