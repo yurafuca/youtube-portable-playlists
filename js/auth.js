@@ -10,7 +10,7 @@ var OAUTH2_SCOPES = [
 var APIKEYFILE = '../apikey.json';
 
 function getJsonData(_url){
-  // console.log('getJsonData()開始：'+_url);
+  console.log('getJsonData()開始：'+_url);
   var $dfd = $.Deferred();
   $.ajax({
     url:_url,
@@ -19,15 +19,15 @@ function getJsonData(_url){
     timeout:15000
   })
     .done(function(_data){
-    //console.log('json取得成功：'+_url);
+    console.log('json取得成功：'+_url);
     $dfd.resolve(_data);
   })
     .fail(function(_data){
-    // console.log('json取得error：'+_url);
+    console.log('json取得error：'+_url);
     $dfd.reject(_data);
   })
     .always(function(_data){
-    //console.log('getJsonData()終了：'+_url);
+    console.log('getJsonData()終了：'+_url);
   });
   return $dfd.promise();
 }
@@ -47,6 +47,7 @@ googleApiClientReady = function() {
 function checkAuth() {
   getJsonData(APIKEYFILE)
     .then(function(_jsonData) {
+      console.info(_jsonData);
       OAUTH2_CLIENT_ID = _jsonData.clientId;
       console.info(OAUTH2_CLIENT_ID);
         gapi.auth.authorize({
