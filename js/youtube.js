@@ -30,25 +30,32 @@ function requestUserPlayLists() {
     channelId: channelId
   });
   request.execute(function(response) {
+    console.info(response);
+    if (response.error) {
+      $('#video-container').html('<div class="message">Sorry you have no channel. <a href="https://www.youtube.com/create_channel" target="_blank">Crate channel</a></div>');
+      $('.post-auth').hide();
+      Loading.done();
+      return;
+    }
     $.each(response.result.items, function(index, item) {
         displayPlaylist(item);
     });
+    // var playlistItems = response.result.items;
+    // if (playlistItems) {
+    //   $.each(playlistItems, function(index, item) {
+    //     displayResult(item.snippet);
+    //   });
+    // }
   });
 }
 
 // Retrieve the list of videos in the specified playlist.
 function requestVideoPlaylist(playlistId, pageToken) {
   $('#video-container').html('');
-  // watchHistory.length == 0 になる．
-  // developers.google.com の embedded-explorer でも watchHistory.length == 0．
-  // relatedPlaylists.watchHistory == 'HL'になっている．
-  // YouTube API が明らかに未実装な箇所を抱えたまま放置されている．
-  // watchLater も同様．
-  // YouTube API はクソだ．
   var requestOptions = {
     playlistId: playlistId,
     part: 'snippet',
-    maxResults: 50
+    maxResults: 27
   };
   if (pageToken) {
     requestOptions.pageToken = pageToken;
@@ -175,7 +182,7 @@ function makeVideoToDom(videoSnippet, videoId) {
         //   thumbnail = videoSnippet.snippet.thumbnails.high.url;
         // } else {
           title = videoSnippet.title;
-          thumbnail = videoSnippet.thumbnails.high.url;
+          thumbnail = videoSnippet.thumbnails.medium.url;
           if (videoId) {
             id = videoId;
           } else {

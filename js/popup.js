@@ -40,8 +40,12 @@ $(function()
 	});
 
 	$(document).on('click','#search-button',function() {
-		removeBackground();
 		requestVideoSearch();
+	});
+
+	$( document ).on( "keydown", function( event ) {
+	  if( event.key == 'Enter' )
+	      requestVideoSearch();
 	});
 });
 
@@ -49,32 +53,11 @@ function toDom(mylist) {
         let dom = $('<div class ="mylist"><span class="name"></span><span class="id"></span></div>');
         dom.find('.name').text(mylist.name);
         dom.find('.id').text(mylist.id);
-
         return dom;
     }
 
 function removeBackground() {
 	$('#mylistitem').removeClass('logoback');
-}
-
-
-function show($doms)
-{
-	return new Promise(function(resolve, reject) {
-		var length = $doms.length;
-		$doms.each(function(index) {
-			append($('#communities'), $(this));
-			if (index == length - 1) {
-				resolve();
-			}
-		});
-	});
-}
-
-function wordWrap(text, length)
-{
-    reg = new RegExp("(.{" + parseInt(length) + "})", "g");
-    return text.replace(/[\r|\r\n|\n]/g, "").replace(reg, "$1" + "<br>");
 }
 
 class Loading

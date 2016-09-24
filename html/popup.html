@@ -8,17 +8,22 @@
 <body style="width: 730px">
 
     <div id="menu">
-        <div id="header" class="header">Created playlists</div>
-        <div id="mylistgroup"></div>
-        <div id="savedlist-header" class="header">Activity</div>
-        <div id="mylistgroup2"></div>
         <div id="search-header" class="header">Search</div>
-        <div id="search-container">
-            <input id="query">
+        <div id="mylistgroup3" class="header-child">
+            <div id="search-container">
+            <input id="query" placeholder="Search" name="q">
             <button id="search-button">
                 <span class="yt-uix-button-content"></span>
             </button>
+            </div>
         </div>
+            
+        <div id="header" class="header">Created playlists</div>
+        <div id="mylistgroup" class="header-child"></div>
+        <div id="savedlist-header" class="header">Activity</div>
+        <div id="mylistgroup2" class="header-child"></div>
+
+
     </div>
     
     <div id="mainview" style="overflow: hidden;">
@@ -28,7 +33,7 @@
             
         </div>
         <div id="mylistitem" class="nowloading">
-            <div id="login-container" class="pre-auth">
+            <div id="login-container" class="pre-auth message">
               This application requires access to your YouTube account.<br>
               Please <a href="#" id="login-link">authorize</a> to continue.
             </div>

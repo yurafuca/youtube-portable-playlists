@@ -1,7 +1,7 @@
 {
-    "name": "YouTube PortablePlay lists",
+    "name": "YouTube Portable Playlists",
 	"manifest_version": 2,
-    "version": "0.0.3",
+    "version": "0.0.4",
      "browser_action": {
 	      "default_icon": "image/icon.png",
 	      "default_title": "YouTube PortablePlay lists",
