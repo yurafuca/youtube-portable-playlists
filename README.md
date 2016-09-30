@@ -7,6 +7,8 @@ A new Google Chrome extension.
 
 closed beta
 
+[Install: Chrome Web Store](https://chrome.google.com/webstore/detail/youtube-portable-playlist/dkjfbakhjnflmkfbnlhmgmglifaokdcb)
+
 ##Demo
 
 ![Alt Text](https://tsuyuno.github.io/resources/YoutubePortablePlayLists.png)
