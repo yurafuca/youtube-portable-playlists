@@ -1,13 +1,13 @@
 {
     "name": "YouTube Portable Playlists",
 	"manifest_version": 2,
-    "version": "0.0.5",
+    "version": "0.0.6",
      "browser_action": {
 	      "default_icon": "image/icon.png",
 	      "default_title": "YouTube PortablePlay lists",
           "default_popup": "html/popup.html"
 	 },
-    "description": "参加中のコミュニティ/チャンネルの放送番組を一覧表示します．", 
+    "description": "YouTubeのプレイリストをポップアップ表示します．", 
     "icons": {
         "16": "image/icon.png", 
         "32": "image/icon.png", 
@@ -23,13 +23,11 @@
         "https://www.youtube.com/"
     ],
     "background": {
-	    "scripts": ["js/jquery-2.1.4.min.js", "js/newArrival.js", "js/comuHolder.js", "js/nicovideo.js", "js/background.js"]
+	    "scripts": ["js/jquery-2.1.4.min.js", "js/background.js"]
 	},
-    "options_page": "html/options.html",
     "web_accessible_resources": [
         "image/icon.png"
     ],
-    // "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoczTsa39NDMLCaIZcDnmBVpGuLuhf+dPBag1ruDi3IJm5CVONDq/ShuTIPJUA3VuBQVyakDzW05aZaYCbLP1bRoCGwQorVBf8IVFOAHQ7NSrBS30Xms+1yUF0x4izNsnqBAZAU7GEP2iTdKuSFX8FitQQqs/HRMIvfultzcxBTKV/NgLdFbEPT9iyisG4AlrKDsWDKb5J6taxsOEgXGfneLhGQmgm45dwio4rHe1Nx7pNkW5bjyAI1Jhqe7NoJVW35iUz8CQFcvo9zPSaMONTHvxKOJ+wEz7uoBglleyY3lqZUvU4Xw0lf+oDeC5yjIx5iQqD2eJ4W+04W1RsR/uiQIDAQAB",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg7pf3vWtJbgmwjzuDU1IjSDp0nGFPnYpYxgCYJpgGyU3AfQWDH7IsvLn/4czc9UeJbvQRMZmxXdOhHUNGt54sErMeLR54er3P6YPdIl/yb56EoIofg51lZP9sbWVHVZOxYl77OnNQt5odQ1coKBV/2zbU+E3/kTGsbPrpPhqoO4mdto3N16SK9GXa1M9TFL5+UgahiQGRWGuFaOIYZ26Rq2UjZErS6/lWDhId1WCKpG3DZxDm2idr/eBDVI+Ql+8AgBzd7TOszHizKj/BLmN/PEyc+9nExRZUnUXZqy0vFyYwaENATS3OJyM56MmJWZZANCey0yZFzV6lXQp4PgrLQIDAQAB",
-   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'"
+    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'"
 }

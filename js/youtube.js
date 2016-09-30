@@ -1,3 +1,6 @@
+//TODO: アカウント切り替え
+//TODO: relatedPlaylists.favoritesは自動生成されない
+
 // Define some variables used to remember state.
 var channelId, playlistId, nextPageToken, prevPageToken;
 
@@ -19,6 +22,8 @@ function requestUserUploadsPlaylistId() {
   request.execute(function(response) {
     channelId = response.result.items[0].id;
     playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
+    console.log("contentDetails:");
+    console.info(response.result.items[0].contentDetails.relatedPlaylists);
     requestUserPlayLists();
     requestVideoPlaylist(playlistId);
   });
