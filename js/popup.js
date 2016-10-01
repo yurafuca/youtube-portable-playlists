@@ -47,6 +47,16 @@ $(function()
 	  if( event.key == 'Enter' )
 	      requestVideoSearch();
 	});
+
+    $(document).on('click','#playall-button',function() {
+        let playlistId = $('#mylisttitle').data('playlist-id');
+        let videoUrl = $('.video').first().find('a').attr('href');
+        let playAllUrl = '';
+        playAllUrl += videoUrl;
+        playAllUrl += '&list=';
+        playAllUrl += playlistId;
+        chrome.tabs.create({'url': playAllUrl});
+    });
 });
 
 function toDom(mylist) {

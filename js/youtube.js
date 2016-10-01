@@ -75,6 +75,7 @@ function requestUserPlayLists() {
 // Retrieve the list of videos in the specified playlist.
 function requestVideoPlaylist(playlistId, pageToken) {
   $('#video-container').html('');
+  $('#mylisttitle').data('playlist-id', playlistId);
   var requestOptions = {
     playlistId: playlistId,
     part: 'snippet',
