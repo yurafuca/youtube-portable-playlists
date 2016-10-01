@@ -1,5 +1,6 @@
 //TODO: アカウント切り替え
 //TODO: relatedPlaylists.favoritesは自動生成されない
+//TODO: PLAY ALL
 
 // Define some variables used to remember state.
 var channelId, playlistId, nextPageToken, prevPageToken;
@@ -7,12 +8,25 @@ var channelId, playlistId, nextPageToken, prevPageToken;
 // After the API loads, call a function to get the uploads playlist ID.
 function handleAPILoaded() {
   Loading.start();
-  requestUserUploadsPlaylistId();
+  requestUserFavoritesPlaylistId();
+
+  // test();
+}
+
+function test(videoSnippet, videoId) {
+  return new Promise(function(resolve, reject) {
+      let dom = $('<div class ="video"/>');
+      dom.load("https://www.youtube.com/", function() {
+        let hoge = dom.find('.yt-thumb-clip img').attr('src');
+        console.log("YouTube");
+        console.log(hoge);
+      });
+  });
 }
 
 // Call the Data API to retrieve the playlist ID that uniquely identifies the
 // list of videos uploaded to the currently authenticated user's channel.
-function requestUserUploadsPlaylistId() {
+function requestUserFavoritesPlaylistId() {
   // See https://developers.google.com/youtube/v3/docs/channels/list
   var request = gapi.client.youtube.channels.list({
     mine: true,
@@ -21,36 +35,40 @@ function requestUserUploadsPlaylistId() {
   });
   request.execute(function(response) {
     channelId = response.result.items[0].id;
-    playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
+    // playlistId = response.result.items[0].contentDetails.relatedPlaylists.favorites;
     console.log("contentDetails:");
-    console.info(response.result.items[0].contentDetails.relatedPlaylists);
+    console.info(response.result.items[0].contentDetails);
     requestUserPlayLists();
-    requestVideoPlaylist(playlistId);
+    // requestVideoPlaylist(playlistId);
   });
 }
 
 function requestUserPlayLists() {
   var request = gapi.client.youtube.playlists.list({
     part: 'snippet',
-    channelId: channelId
+    channelId: channelId,
+    maxResults: 50
   });
   request.execute(function(response) {
     console.info(response);
     if (response.error) {
-      $('#video-container').html('<div class="message">Sorry you have no channel. <a href="https://www.youtube.com/create_channel" target="_blank">Crate channel</a></div>');
+      $('#video-container').html('<div class="message">Sorry you have no channel. <a href="https://www.youtube.com/create_channel" target="_blank">Crate a channel now.</a></div>');
       $('.post-auth').hide();
       Loading.done();
       return;
     }
+    let length = response.result.items.length;
+    if (length == 0) {
+      $('#video-container').html(`<div class="message">Sorry you have no playlists. <a href="https://www.youtube.com/channel/${channelId}/playlists" target="_blank">Crate a playlist now.</a></div>`);
+      $('.post-auth').hide();
+      Loading.done();
+      return;
+    }
+    let oldestItem = response.result.items[length - 1];
+    requestVideoPlaylist(oldestItem.id);
     $.each(response.result.items, function(index, item) {
         displayPlaylist(item);
     });
-    // var playlistItems = response.result.items;
-    // if (playlistItems) {
-    //   $.each(playlistItems, function(index, item) {
-    //     displayResult(item.snippet);
-    //   });
-    // }
   });
 }
 
@@ -78,13 +96,14 @@ function requestVideoPlaylist(playlistId, pageToken) {
     var prevVis = prevPageToken ? 'visible' : 'hidden';
     $('#prev-button').css('visibility', prevVis);
 
+    Loading.done();
     var playlistItems = response.result.items;
     if (playlistItems) {
       $.each(playlistItems, function(index, item) {
         displayResult(item.snippet);
       });
     } else {
-      $('#video-container').html('Sorry you have no uploaded videos');
+      $('#video-container').html('<div class="message">There is no videos.</div>');
     }
   });
 }
@@ -100,12 +119,11 @@ function requestVideo(videoId, videoDom, pageToken) {
     requestOptions.pageToken = pageToken;
   }
   var request = gapi.client.youtube.videos.list(requestOptions);
-  console.info(requestOptions);
+  // console.info(requestOptions);
   request.execute(function(response) {
     // Only show pagination buttons if there is a pagination token for the
     // next or previous page of results.
-    console.info(response);
-    // console.log(Date.parse(response.result.items[0].contentDetails.duration).getMinute());
+    // console.info(response);
     videoDom.find('.video_length').text(parseDuration(response.result.items[0].contentDetails.duration));
     videoDom.find('.viewcount').text(Number(response.result.items[0].statistics.viewCount).toLocaleString());
 
@@ -133,59 +151,42 @@ function requestVideoSearch() {
              + '&maxResults=' + 18;
 
   var request = gapi.client.request(endpoint + params, 'GET');
-    // .then(function(response) {
-    //   console.info(response);
-    // });
-
   request.execute(function(response) {
     console.log(response);
     var playlistItems = response.items;
     if (playlistItems) {
       $.each(playlistItems, function(index, item) {
-        // item.resourceId.videoId = item.id.id;
         displayResult(item.snippet, item.id.videoId);
       });
     } else {
       $('#video-container').html('Not found.');
     }
-    // var str = JSON.stringify(response.result);
-    // $('#search-container').html('<pre>' + str + '</pre>');
   });
 }
 
 // Create a listing for a video.
 function displayResult(videoSnippet, videoId) {
-  makeVideoToDom(videoSnippet, videoId)
-    .then(function(dom) {
-      // console.log("Resolved dom");
-      // console.info(dom);
+  makeVideoToDom(videoSnippet, videoId).then(function(dom) {
       $('#video-container').append(dom);
-    });
-  console.info(videoSnippet);
-  // var title = videoSnippet.title;
-  // var videoId = videoSnippet.resourceId.videoId;
-  // $('#video-container').append('<p>' + title + ' - ' + videoId + '</p>');
+  });
+  // console.info(videoSnippet);
 }
 
 function displayPlaylist(playListItem) {
   let dom = $('<div class ="mylist"><span class="name"></span><span class="id"></span></div>');
-  dom.find('.name').text(playListItem.snippet.title);
-  dom.find('.id').text(playListItem.id);
-  let hoge;
+  let title = playListItem.snippet.title;
+  let id = playListItem.id;
+  dom.find('.name').text(title);
+  dom.find('.id').text(id);
   $('#mylistgroup').append(dom);
+  $('#mylisttitle').text(title);
 }
 
 function makeVideoToDom(videoSnippet, videoId) {
   return new Promise(function(resolve, reject) {
       let dom = $('<div class ="video"/>');
       dom.load(chrome.extension.getURL("/html/video.html"), function() {
-        // if (videoSnippet)
         var title, id, thumbnail;
-        // if (videoSnippet.snippet) {
-        //   id = videoSnippet.id.videoId;
-        //   title = videoSnippet.snippet.title;
-        //   thumbnail = videoSnippet.snippet.thumbnails.high.url;
-        // } else {
           title = videoSnippet.title;
           thumbnail = videoSnippet.thumbnails.medium.url;
           if (videoId) {
@@ -193,10 +194,8 @@ function makeVideoToDom(videoSnippet, videoId) {
           } else {
             id = id = videoSnippet.resourceId.videoId;
           }
-        // }
         dom.find('.playurl').attr('href', "https://www.youtube.com/watch?v=" + id);
         dom.find('.title .playurl').text(title);
-        
         dom.find('.thumbnail').css('background-image', `url(" ${thumbnail} ")`);
         requestVideo(id, dom);
         resolve(dom);
@@ -238,7 +237,8 @@ $(function()
   $(document).on('click','#prev-button',function() {
     previousPage();
   });
-    $(document).on('click','#next-button',function() {
+  
+  $(document).on('click','#next-button',function() {
     nextPage();
   });
 });

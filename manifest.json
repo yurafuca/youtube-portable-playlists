@@ -20,10 +20,11 @@
         "https://apis.google.com/",
         "https://accounts.google.com/*",
         "https://www.googleapis.com/*",
-        "https://www.youtube.com/"
+        "https://www.youtube.com/",
+        "https://yt3.ggpht.com/"
     ],
     "background": {
-	    "scripts": ["js/jquery-2.1.4.min.js", "js/background.js"]
+	    "scripts": ["js/jquery-2.1.4.min.js"]
 	},
     "web_accessible_resources": [
         "image/icon.png"

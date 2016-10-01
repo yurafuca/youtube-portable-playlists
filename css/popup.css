@@ -4,7 +4,6 @@ html {
 body {
 	margin: 0;
 	font-size: 13px;
-	
 	overflow: hidden !important;
 	color: #222;
 	border: solid 1px #ddd;
@@ -162,6 +161,14 @@ a {
 	box-shadow: 0 2px 4px rgba(0,0,0,.2);
 	position: relative;
 	z-index: 999;
+}
+#mylistheader:after {
+    content: '';
+    background-image: url('../image/renchon.png');
+    background-size: 23px;
+    float:right;
+    width: 23px;
+    height: 23px;
 }
 #headericon{
 }

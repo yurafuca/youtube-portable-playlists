@@ -54,7 +54,7 @@ function toDom(mylist) {
         dom.find('.name').text(mylist.name);
         dom.find('.id').text(mylist.id);
         return dom;
-    }
+}
 
 function removeBackground() {
 	$('#mylistitem').removeClass('logoback');
