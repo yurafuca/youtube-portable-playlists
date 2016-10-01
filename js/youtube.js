@@ -1,6 +1,7 @@
 //TODO: アカウント切り替え
-//TODO: relatedPlaylists.favoritesは自動生成されない
-//TODO: PLAY ALL
+//TODO: 左カラムをスクロール対応にする
+//DONE: relatedPlaylists.favoritesは自動生成されない
+//DONE: PLAY ALL
 
 // Define some variables used to remember state.
 var channelId, playlistId, nextPageToken, prevPageToken;
