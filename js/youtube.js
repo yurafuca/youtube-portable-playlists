@@ -12,6 +12,7 @@ function handleAPILoaded() {
   requestUserFavoritesPlaylistId();
 
   // test();
+  // test2();
 }
 
 function test(videoSnippet, videoId) {
@@ -23,6 +24,19 @@ function test(videoSnippet, videoId) {
         console.log(hoge);
       });
   });
+}
+
+function test2(videoSnippet, videoId) {
+  return new Promise(function(resolve, reject) {
+    console.info(GoogleAuth.getId());
+    console.info(GoogleAuth.currentUser.get());
+  });
+}
+
+function signOut() {
+  // Dosen't work gapi.aut.signOut;
+  gapi.auth.signOut();
+  location.reload();
 }
 
 // Call the Data API to retrieve the playlist ID that uniquely identifies the

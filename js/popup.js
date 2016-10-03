@@ -1,4 +1,3 @@
-const bg = chrome.extension.getBackgroundPage();
 $(function()
 {
 	// Loading Google API JavaScript Client Library
@@ -56,6 +55,11 @@ $(function()
         playAllUrl += '&list=';
         playAllUrl += playlistId;
         chrome.tabs.create({'url': playAllUrl});
+    });
+
+    $(document).on('click','.signout-button',function() {
+        // signOut();
+        gapi.accounts.signout();
     });
 });
 
