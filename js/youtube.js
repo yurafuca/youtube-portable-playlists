@@ -1,5 +1,5 @@
 //TODO: アカウント切り替え
-//TODO: 左カラムをスクロール対応にする
+//DONE: 左カラムをスクロール対応にする
 //DONE: relatedPlaylists.favoritesは自動生成されない
 //DONE: PLAY ALL
 
@@ -35,8 +35,38 @@ function test2(videoSnippet, videoId) {
 
 function signOut() {
   // Dosen't work gapi.aut.signOut;
-  gapi.auth.signOut();
-  location.reload();
+  // gapi.auth.signOut();
+
+  // gapi.auth2.setToken(gapi.auth.getToken());
+
+  //     var auth2 = gapi.auth2.getAuthInstance();
+  //   auth2.signOut().then(function () {
+  //     console.log('User signed out.');
+  //   });
+  // location.reload();
+
+  // let path = 'https://accounts.google.com/o/oauth2/revoke?token=' + gapi.auth.getToken().access_token;
+  // var request = gapi.client.request(path, "POST");
+  // request.execute(function(response) {
+  //   console.log('User signed out.');
+  //   console.info(response);
+  // });
+
+    return new Promise(function(resolve, reject) {
+      let path = 'https://accounts.google.com/o/oauth2/revoke?token=' + gapi.auth.getToken().access_token;
+      console.log(gapi.auth.getToken().access_token);
+      $.get(path, function(response) {
+          console.log(response);
+          switch (response.status) {
+              case 'ok':
+                  resolve(true);
+                  break;
+              case 'fail':
+                  resolve(false);
+                  break;
+          }
+      }, 'json');            
+  });
 }
 
 // Call the Data API to retrieve the playlist ID that uniquely identifies the

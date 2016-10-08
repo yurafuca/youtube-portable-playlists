@@ -8,6 +8,7 @@ $(function()
 	 script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady";
 	 head.appendChild(script);
 
+
 	$('.pre-auth').hide();
     $('.post-auth').hide();
 
@@ -57,10 +58,10 @@ $(function()
         chrome.tabs.create({'url': playAllUrl});
     });
 
-    $(document).on('click','.signout-button',function() {
-        // signOut();
-        gapi.accounts.signout();
-    });
+    // $(document).on('click','.signout-button',function() {
+    //     signOut();
+    //     // gapi.accounts.signout();
+    // });
 });
 
 function toDom(mylist) {

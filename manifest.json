@@ -1,13 +1,13 @@
 {
-    "name": "YouTube Portable Playlists",
+    "name": "Portable Playlists for YouTube™",
 	"manifest_version": 2,
-    "version": "0.0.6",
+    "version": "1.0.0",
      "browser_action": {
 	      "default_icon": "image/icon.png",
-	      "default_title": "YouTube PortablePlay lists",
+	      "default_title": "Portable Playlists for YouTube™",
           "default_popup": "html/popup.html"
 	 },
-    "description": "YouTubeのプレイリストをポップアップ表示します．", 
+    "description": "Open your YouTube™ playlists in a small window.", 
     "icons": {
         "16": "image/icon.png", 
         "32": "image/icon.png", 
