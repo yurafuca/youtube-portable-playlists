@@ -10,27 +10,44 @@ var channelId, playlistId, nextPageToken, prevPageToken;
 function handleAPILoaded() {
   Loading.start();
   requestUserFavoritesPlaylistId();
-
-  // test();
-  // test2();
+  getUserDetails();
 }
 
-function test(videoSnippet, videoId) {
-  return new Promise(function(resolve, reject) {
-      let dom = $('<div class ="video"/>');
-      dom.load("https://www.youtube.com/", function() {
-        let hoge = dom.find('.yt-thumb-clip img').attr('src');
-        console.log("YouTube");
-        console.log(hoge);
-      });
-  });
-}
+// function test(videoSnippet, videoId) {
+//   return new Promise(function(resolve, reject) {
+//       let dom = $('<div class ="video"/>');
+//       dom.load("https://www.youtube.com/", function() {
+//         let hoge = dom.find('.yt-thumb-clip img').attr('src');
+//         console.log("YouTube");
+//         console.log(hoge);
+//       });
+//   });
+// }
 
-function test2(videoSnippet, videoId) {
-  return new Promise(function(resolve, reject) {
-    console.info(GoogleAuth.getId());
-    console.info(GoogleAuth.currentUser.get());
+// function test2(videoSnippet, videoId) {
+//   return new Promise(function(resolve, reject) {
+//     console.info(GoogleAuth.getId());
+//     console.info(GoogleAuth.currentUser.get());
+//   });
+// }
+
+function getUserDetails(videoSnippet, videoId) {
+  var request = gapi.client.youtube.channels.list({
+    part: 'snippet',
+    mine: true
   });
+  request.execute(function(response) {
+    console.info(response);
+    let avator_url = response.result.items[0].snippet.thumbnails.default.url;
+    console.log(avator_url);
+    $('#avator').attr('src', avator_url);
+    $('#more-button').css('background-image', 'url(' + avator_url + ')');
+    $('.account-name').html(response.result.items[0].snippet.title);
+    // $('.account-email').html(response.result.items[0].id);
+  });
+  // signOut();
+  // https://mail.google.com/mail/u/0/?logout
+
 }
 
 function signOut() {
@@ -52,21 +69,21 @@ function signOut() {
   //   console.info(response);
   // });
 
-    return new Promise(function(resolve, reject) {
-      let path = 'https://accounts.google.com/o/oauth2/revoke?token=' + gapi.auth.getToken().access_token;
-      console.log(gapi.auth.getToken().access_token);
-      $.get(path, function(response) {
-          console.log(response);
-          switch (response.status) {
-              case 'ok':
-                  resolve(true);
-                  break;
-              case 'fail':
-                  resolve(false);
-                  break;
-          }
-      }, 'json');            
-  });
+  //   return new Promise(function(resolve, reject) {
+  //     let path = 'https://accounts.google.com/o/oauth2/revoke?token=' + gapi.auth.getToken().access_token;
+  //     console.log(gapi.auth.getToken().access_token);
+  //     $.get(path, function(response) {
+  //         console.log(response);
+  //         switch (response.status) {
+  //             case 'ok':
+  //                 resolve(true);
+  //                 break;
+  //             case 'fail':
+  //                 resolve(false);
+  //                 break;
+  //         }
+  //     }, 'json');            
+  // });
 }
 
 // Call the Data API to retrieve the playlist ID that uniquely identifies the

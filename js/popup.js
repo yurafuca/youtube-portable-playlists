@@ -48,6 +48,14 @@ $(function()
 	      requestVideoSearch();
 	});
 
+    $(document).on('click','.mychannel-button',function() {
+        chrome.tabs.create({'url': 'https://www.youtube.com/channel/' + channelId});
+    });
+
+    $(document).on('click','.signout-button',function() {
+        chrome.tabs.create({'url': 'https://www.google.com/accounts/Logout'});
+    });
+
     $(document).on('click','#playall-button',function() {
         let playlistId = $('#mylisttitle').data('playlist-id');
         let videoUrl = $('.video').first().find('a').attr('href');
@@ -58,10 +66,12 @@ $(function()
         chrome.tabs.create({'url': playAllUrl});
     });
 
-    // $(document).on('click','.signout-button',function() {
-    //     signOut();
-    //     // gapi.accounts.signout();
-    // });
+    $(document).on('click', function(event) {
+      if (!$(event.target).closest('#more-button').length) {
+        $('input:checkbox').prop("checked",false);
+      }
+    });
+
 });
 
 function toDom(mylist) {

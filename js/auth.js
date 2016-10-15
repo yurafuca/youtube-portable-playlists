@@ -1,4 +1,4 @@
-// The client ID is obtained from the Google Developers Console
+// The client ID is obtained fro mthe Google Developers Console
 // at https://console.developers.google.com/.
 // If you run this code from a server other than http://localhost,
 // you need to register your own client ID.
@@ -6,6 +6,9 @@ var OAUTH2_CLIENT_ID = '__YOUR_CLIENT_ID__';
 var OAUTH2_SCOPES = [
   'https://www.googleapis.com/auth/youtube'
 ];
+
+
+  // ,'https://www.googleapis.com/auth/plus.me'
 
 var APIKEYFILE = '../apikey.json';
 
@@ -67,6 +70,8 @@ function handleAuthResult(authResult) {
     $('.pre-auth').hide();
     $('.post-auth').show();
     loadAPIClientInterfaces();
+      console.log('token: ' + gapi.auth.getToken().access_token);
+
   } else {
     Loading.done();
     $('.pre-auth').show();
