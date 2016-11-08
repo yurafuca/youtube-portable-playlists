@@ -11,4 +11,4 @@ closed beta
 
 ##Demo
 
-![Alt Text](https://tsuyuno.github.io/resources/YoutubePortablePlayLists.png)
+![Alt Text](https://tsuyuno.github.io/resources/youtube-portable-playlist.png)
